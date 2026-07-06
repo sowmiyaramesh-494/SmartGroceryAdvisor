@@ -116,15 +116,23 @@
 
 </div>
 
+
+
+{% endblock %}
+{% block scripts %}
+
 <script>
+
 $(document).ready(function () {
 
     $('#product').select2({
         placeholder: "Search Product",
-        width: '100%'
+        allowClear: true,
+        width: "100%"
     });
 
 });
+
 </script>
 
 {% endblock %}
