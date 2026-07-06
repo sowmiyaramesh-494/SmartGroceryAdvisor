@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import mysql.connector
 
 app = Flask(__name__)
-
+app.secret_key = "smart_grocery_secret"
 # Database Connection
 db = mysql.connector.connect(
     host="localhost",
@@ -45,8 +45,10 @@ def login():
         user = cursor.fetchone()
 
         if user:
-            return redirect("/admin")
 
+        session["user"] = email
+
+         return redirect("/admin")
         else:
             return "Invalid Email or Password"
 
@@ -54,8 +56,11 @@ def login():
 
 @app.route("/admin")
 def admin():
+
+    if "user" not in session:
+        return redirect("/login")
+
     return render_template("admin.html")
-# Register Page
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
@@ -79,6 +84,12 @@ def register():
         return redirect("/login")
 
     return render_template("register.html")
+@app.route("/logout")
+def logout():
+
+    session.pop("user", None)
+
+    return redirect("/login")
 @app.route("/add_store", methods=["GET", "POST"])
 def add_store():
 
