@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow p-4">
+
+                <h2 class="text-center text-success mb-4">
+                    Quality Rating
+                </h2>
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label>Product ID</label>
+                        <input type="number" name="product_id" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Quality Score (1-5)</label>
+                        <input type="number" min="1" max="5" name="quality_score" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Remarks</label>
+                        <textarea name="remarks" class="form-control"></textarea>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Save Rating
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

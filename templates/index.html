@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <!-- Left Side -->
+            <div class="col-lg-6">
+
+                <h1 class="display-3 fw-bold text-success">
+                    Smart Grocery Advisor
+                </h1>
+
+                <p class="lead mt-4">
+                    Compare grocery prices, evaluate product quality,
+                    and discover the best store for smarter shopping.
+                </p>
+
+                <a href="/login" class="btn btn-success btn-lg me-3">
+                    Compare Now
+                </a>
+
+                <a href="/about" class="btn btn-outline-success btn-lg">
+                    Learn More
+                </a>
+
+            </div>
+
+            <!-- Right Side -->
+            <div class="col-lg-6 text-center">
+
+                <img src="{{ url_for('static', filename='images/hero.png') }}"
+                     class="img-fluid hero-image"
+                     alt="Shopping Cart">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Features Section -->
+
+<section class="container my-5">
+
+    <h2 class="text-center fw-bold text-success mb-5">
+        Our Features
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card feature-card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>🛒</h1>
+
+                    <h4>Price Comparison</h4>
+
+                    <p>
+                        Compare grocery prices from multiple stores
+                        and choose the most affordable option.
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card feature-card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>⭐</h1>
+
+                    <h4>Quality Analysis</h4>
+
+                    <p>
+                        Evaluate product quality using ratings and
+                        customer reviews.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card feature-card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>📍</h1>
+
+                    <h4>Store Recommendation</h4>
+
+                    <p>
+                        Discover the best nearby store based on
+                        price and quality.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card feature-card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <h1>💰</h1>
+
+                    <h4>Save Money</h4>
+
+                    <p>
+                        Reduce grocery expenses through smart
+                        shopping decisions.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

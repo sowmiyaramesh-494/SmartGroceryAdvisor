@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-success mb-5">
+        Admin Dashboard
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- Add Store -->
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h4>Add Store</h4>
+                <a href="/add_store" class="btn btn-success mt-3">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <!-- Add Product -->
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h4>Add Product</h4>
+                <a href="/add_product" class="btn btn-success mt-3">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <!-- Add Price -->
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h4>Add Price</h4>
+                <a href="/add_price" class="btn btn-success mt-3">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <!-- Quality Rating -->
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h4>Quality Rating</h4>
+                <a href="/quality" class="btn btn-success mt-3">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <!-- Compare Prices -->
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h4>Compare Prices</h4>
+                <a href="/compare" class="btn btn-success mt-3">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h4>Logout</h4>
+                <a href="/logout" class="btn btn-danger mt-3">
+                    Logout
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

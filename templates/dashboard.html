@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h1 class="text-center text-success">
+        Welcome to Smart Grocery Advisor
+    </h1>
+
+    <p class="text-center text-muted">
+        Compare grocery prices, check quality, and find the best store.
+    </p>
+
+    <div class="row mt-5">
+
+        <div class="col-md-4">
+
+            <div class="card shadow p-4 text-center">
+
+                <h3>Compare Prices</h3>
+
+                <p>
+                    Compare prices across different stores.
+                </p>
+
+                <a href="/compare" class="btn btn-success">
+                    Compare Now
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow p-4 text-center">
+
+                <h3>Quality Ratings</h3>
+
+                <p>
+                    Check product quality before purchasing.
+                </p>
+
+                <a href="/compare" class="btn btn-success">
+                    View Ratings
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow p-4 text-center">
+
+                <h3>Recommended Store</h3>
+
+                <p>
+                    Find the best store with the lowest price.
+                </p>
+
+                <a href="/compare" class="btn btn-success">
+                    View Recommendation
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

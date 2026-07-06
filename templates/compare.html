@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-success mb-4">
+        Compare Product Prices
+    </h2>
+
+    <form method="POST">
+
+        <div class="row">
+
+            <div class="col-md-8">
+
+                <select class="form-select" id="product" name="product_id">
+
+                    {% for product in products %}
+
+                    <option value="{{ product[0] }}"
+                        {% if product[0] == selected_product_id %}
+                            selected
+                        {% endif %}>
+                        {{ product[1] }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <button type="submit" class="btn btn-success w-100">
+                    Compare
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <br>
+
+    {% if prices %}
+
+    <div class="alert alert-success text-center mb-4">
+
+        <strong>🏆 Recommended Store:</strong>
+        {{ recommended_store }}
+
+        &nbsp;&nbsp; | &nbsp;&nbsp;
+
+        <strong>Lowest Price:</strong>
+        ₹ {{ lowest_price }}
+
+    </div>
+
+    <h3 class="text-center text-primary mb-4">
+        {{ product_name }} Price Comparison
+    </h3>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-success">
+
+            <tr>
+                <th>Store</th>
+                <th>Price (₹)</th>
+                <th>Quality</th>
+                <th>Recommendation</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for row in prices %}
+
+            <tr>
+
+                <td>{{ row[0] }}</td>
+
+                <td>₹ {{ row[1] }}</td>
+
+                <td>{{ row[2] }}/5</td>
+
+                <td>
+
+                    {% if row[1] == lowest_price %}
+
+                        <span class="text-success fw-bold">
+                            Recommended
+                        </span>
+
+                    {% else %}
+
+                        -
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% endif %}
+
+</div>
+
+<script>
+$(document).ready(function () {
+
+    $('#product').select2({
+        placeholder: "Search Product",
+        width: '100%'
+    });
+
+});
+</script>
+
+{% endblock %}
