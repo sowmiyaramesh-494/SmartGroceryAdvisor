@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-success mb-4">
+        View Quality Ratings
+    </h2>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-success">
+
+            <tr>
+                <th>Product</th>
+                <th>Quality</th>
+                <th>Remarks</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for row in quality %}
+
+            <tr>
+
+                <td>{{ row[0] }}</td>
+
+                <td>{{ row[1] }}/5</td>
+
+                <td>{{ row[2] }}</td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <div class="text-center">
+
+        <a href="/admin" class="btn btn-success">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

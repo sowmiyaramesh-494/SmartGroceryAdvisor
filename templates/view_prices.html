@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center text-success mb-4">
+        View Product Prices
+    </h2>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-success">
+
+            <tr>
+                <th>Product</th>
+                <th>Store</th>
+                <th>Price (₹)</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for row in prices %}
+
+            <tr>
+
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>₹ {{ row[2] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <div class="text-center mt-4">
+
+        <a href="/admin" class="btn btn-success">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

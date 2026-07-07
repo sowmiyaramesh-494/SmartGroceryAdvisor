@@ -7,7 +7,7 @@ app.secret_key = "smart_grocery_secret"
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="root@123",
+    password="sowmiroot@123",
     database="smart_grocery_advisor"
 )
 
@@ -31,7 +31,6 @@ def contact():
 # Login Page
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    
 
     if request.method == "POST":
 
@@ -39,21 +38,21 @@ def login():
         password = request.form["password"]
 
         sql = "SELECT * FROM users WHERE email=%s AND password=%s"
-
         cursor.execute(sql, (email, password))
 
         user = cursor.fetchone()
 
         if user:
 
-        session["user"] = email
+            session["user"] = email
 
-         return redirect("/admin")
+            return redirect("/admin")
+
         else:
+
             return "Invalid Email or Password"
 
     return render_template("login.html")
-
 @app.route("/admin")
 def admin():
 
@@ -92,6 +91,8 @@ def logout():
     return redirect("/login")
 @app.route("/add_store", methods=["GET", "POST"])
 def add_store():
+    if "user" not in session:
+        return redirect("/login")
 
     if request.method == "POST":
 
@@ -112,9 +113,134 @@ def add_store():
         return redirect("/admin")
 
     return render_template("add_store.html")
+@app.route("/view_stores")
+def view_stores():
 
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute("SELECT * FROM stores")
+
+    stores = cursor.fetchall()
+
+    return render_template("view_stores.html", stores=stores)
+@app.route("/delete_store/<int:store_id>")
+def delete_store(store_id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute(
+        "DELETE FROM stores WHERE store_id=%s",
+        (store_id,)
+    )
+
+    db.commit()
+
+    return redirect("/view_stores")
+@app.route("/edit_store/<int:store_id>", methods=["GET", "POST"])
+def edit_store(store_id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        store_name = request.form["store_name"]
+        location = request.form["location"]
+        contact = request.form["contact"]
+
+        sql = """
+        UPDATE stores
+        SET store_name=%s,
+            location=%s,
+            contact=%s
+        WHERE store_id=%s
+        """
+
+        cursor.execute(sql, (store_name, location, contact, store_id))
+        db.commit()
+
+        return redirect("/view_stores")
+
+    cursor.execute(
+        "SELECT * FROM stores WHERE store_id=%s",
+        (store_id,)
+    )
+
+    store = cursor.fetchone()
+
+    return render_template("edit_store.html", store=store)
+@app.route("/view_products")
+
+def view_products():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute("SELECT * FROM products")
+
+    products = cursor.fetchall()
+
+    return render_template("view_products.html", products=products)
 @app.route("/add_product", methods=["GET", "POST"])
+
+@app.route("/view_prices")
+def view_prices():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    sql = """
+    SELECT
+        products.product_name,
+        stores.store_name,
+        product_prices.price
+
+    FROM product_prices
+
+    JOIN products
+        ON product_prices.product_id = products.product_id
+
+    JOIN stores
+        ON product_prices.store_id = stores.store_id
+
+    ORDER BY products.product_name
+    """
+
+    cursor.execute(sql)
+
+    prices = cursor.fetchall()
+
+    return render_template("view_prices.html", prices=prices)
+@app.route("/view_quality")
+def view_quality():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    sql = """
+    SELECT
+        products.product_name,
+        quality_ratings.quality_score,
+        quality_ratings.remarks
+
+    FROM quality_ratings
+
+    JOIN products
+        ON quality_ratings.product_id = products.product_id
+
+    ORDER BY products.product_name
+    """
+
+    cursor.execute(sql)
+
+    quality = cursor.fetchall()
+
+    return render_template("view_quality.html", quality=quality)
 def add_product():
+    if "user" not in session:
+        return redirect("/login")
 
     if request.method == "POST":
 
@@ -137,6 +263,8 @@ def add_product():
     return render_template("add_product.html")
 @app.route("/add_price", methods=["GET", "POST"])
 def add_price():
+    if "user" not in session:
+        return redirect("/login")
 
     if request.method == "POST":
 
@@ -157,7 +285,8 @@ def add_price():
     return render_template("add_price.html")
 @app.route("/quality", methods=["GET", "POST"])
 def quality():
-
+    if "user" not in session:
+        return redirect("/login")
     if request.method == "POST":
 
         product_id = request.form["product_id"]
