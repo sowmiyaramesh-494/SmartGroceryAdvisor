@@ -7,7 +7,7 @@ app.secret_key = "smart_grocery_secret"
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="sowmiroot@123",
+    password="root@123",
     database="smart_grocery_advisor"
 )
 
@@ -56,10 +56,29 @@ def login():
 @app.route("/admin")
 def admin():
 
+
     if "user" not in session:
         return redirect("/login")
 
-    return render_template("admin.html")
+    cursor.execute("SELECT COUNT(*) FROM stores")
+    total_stores = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM products")
+    total_products = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM product_prices")
+    total_prices = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM quality_ratings")
+    total_quality = cursor.fetchone()[0]
+
+    return render_template(
+        "admin.html",
+        total_stores=total_stores,
+        total_products=total_products,
+        total_prices=total_prices,
+        total_quality=total_quality
+    )
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
