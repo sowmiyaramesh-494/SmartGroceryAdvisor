@@ -16,6 +16,7 @@
                 <th>Product</th>
                 <th>Quality</th>
                 <th>Remarks</th>
+                <th>Actions</th>
             </tr>
 
         </thead>
@@ -31,6 +32,21 @@
                 <td>{{ row[1] }}/5</td>
 
                 <td>{{ row[2] }}</td>
+
+                <td>
+
+                    <a href="/edit_quality/{{ row[3] }}"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="/delete_quality/{{ row[3] }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this quality rating?')">
+                        Delete
+                    </a>
+
+                </td>
 
             </tr>
 

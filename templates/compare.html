@@ -5,7 +5,7 @@
 <div class="container mt-5">
 
     <h2 class="text-center text-success mb-4">
-        Compare Product Prices
+        Product Price Comparison
     </h2>
 
     <form method="POST">
@@ -47,15 +47,47 @@
 
     {% if prices %}
 
-    <div class="alert alert-success text-center mb-4">
+    <div class="row mb-4">
 
-        <strong>🏆 Recommended Store:</strong>
-        {{ recommended_store }}
+        <div class="col-md-6">
 
-        &nbsp;&nbsp; | &nbsp;&nbsp;
+            <div class="card border-success shadow-sm">
 
-        <strong>Lowest Price:</strong>
-        ₹ {{ lowest_price }}
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Recommended Store
+                    </h6>
+
+                    <h4 class="text-success">
+                        {{ recommended_store }}
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card border-primary shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Lowest Available Price
+                    </h6>
+
+                    <h4 class="text-primary">
+                        ₹ {{ lowest_price }}
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -80,7 +112,7 @@
 
             {% for row in prices %}
 
-            <tr>
+            <tr {% if row[1] == lowest_price %}class="table-success"{% endif %}>
 
                 <td>{{ row[0] }}</td>
 
@@ -92,13 +124,15 @@
 
                     {% if row[1] == lowest_price %}
 
-                        <span class="text-success fw-bold">
-                            Recommended
+                        <span class="badge bg-success">
+                            Best Choice
                         </span>
 
                     {% else %}
 
-                        -
+                        <span class="badge bg-secondary">
+                            Available
+                        </span>
 
                     {% endif %}
 
@@ -116,9 +150,8 @@
 
 </div>
 
-
-
 {% endblock %}
+
 {% block scripts %}
 
 <script>

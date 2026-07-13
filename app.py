@@ -202,8 +202,72 @@ def view_products():
     products = cursor.fetchall()
 
     return render_template("view_products.html", products=products)
-@app.route("/add_product", methods=["GET", "POST"])
 
+
+@app.route("/edit_product/<int:product_id>", methods=["GET", "POST"])
+def edit_product(product_id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        product_name = request.form["product_name"]
+        category = request.form["category"]
+        brand = request.form["brand"]
+
+        sql = """
+        UPDATE products
+        SET
+            product_name=%s,
+            category=%s,
+            brand=%s
+        WHERE product_id=%s
+        """
+
+        cursor.execute(sql, (product_name, category, brand, product_id))
+        db.commit()
+
+        return redirect("/view_products")
+
+    cursor.execute(
+        "SELECT * FROM products WHERE product_id=%s",
+        (product_id,)
+    )
+
+    product = cursor.fetchone()
+
+    return render_template(
+        "edit_product.html",
+        product=product
+    )
+@app.route("/delete_product/<int:id>")
+def delete_product(id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    # Delete related prices
+    cursor.execute(
+        "DELETE FROM product_prices WHERE product_id=%s",
+        (id,)
+    )
+
+    # Delete related quality ratings
+    cursor.execute(
+        "DELETE FROM quality_ratings WHERE product_id=%s",
+        (id,)
+    )
+
+    # Delete the product
+    cursor.execute(
+        "DELETE FROM products WHERE product_id=%s",
+        (id,)
+    )
+
+    db.commit()
+
+    return redirect("/view_products")
 @app.route("/view_prices")
 def view_prices():
 
@@ -212,27 +276,75 @@ def view_prices():
 
     sql = """
     SELECT
-        products.product_name,
-        stores.store_name,
-        product_prices.price
-
+    products.product_name,
+    stores.store_name,
+    product_prices.price,
+    product_prices.price_id
     FROM product_prices
-
     JOIN products
-        ON product_prices.product_id = products.product_id
-
+    ON product_prices.product_id = products.product_id
     JOIN stores
-        ON product_prices.store_id = stores.store_id
-
+    ON product_prices.store_id = stores.store_id
     ORDER BY products.product_name
-    """
+    """ 
 
     cursor.execute(sql)
 
     prices = cursor.fetchall()
 
     return render_template("view_prices.html", prices=prices)
+@app.route("/edit_price/<int:id>", methods=["GET", "POST"])
+def edit_price(id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        price = request.form["price"]
+
+        cursor.execute(
+            "UPDATE product_prices SET price=%s WHERE price_id=%s",
+            (price, id)
+        )
+
+        db.commit()
+
+        return redirect("/view_prices")
+
+    cursor.execute("""
+        SELECT
+        product_prices.price_id,
+        products.product_name,
+        stores.store_name,
+        product_prices.price
+        FROM product_prices
+        JOIN products
+        ON product_prices.product_id = products.product_id
+        JOIN stores
+        ON product_prices.store_id = stores.store_id
+        WHERE product_prices.price_id=%s
+    """, (id,))
+
+    price = cursor.fetchone()
+
+    return render_template("edit_price.html", price=price)
+@app.route("/delete_price/<int:id>")
+def delete_price(id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute(
+        "DELETE FROM product_prices WHERE price_id=%s",
+        (id,)
+    )
+
+    db.commit()
+
+    return redirect("/view_prices")
 @app.route("/view_quality")
+
 def view_quality():
 
     if "user" not in session:
@@ -240,15 +352,13 @@ def view_quality():
 
     sql = """
     SELECT
-        products.product_name,
-        quality_ratings.quality_score,
-        quality_ratings.remarks
-
+    products.product_name,
+    quality_ratings.quality_score,
+    quality_ratings.remarks,
+    quality_ratings.rating_id
     FROM quality_ratings
-
     JOIN products
-        ON quality_ratings.product_id = products.product_id
-
+    ON quality_ratings.product_id = products.product_id
     ORDER BY products.product_name
     """
 
@@ -257,6 +367,65 @@ def view_quality():
     quality = cursor.fetchall()
 
     return render_template("view_quality.html", quality=quality)
+@app.route("/edit_quality/<int:id>", methods=["GET", "POST"])
+def edit_quality(id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        quality_score = request.form["quality_score"]
+        remarks = request.form["remarks"]
+
+        cursor.execute(
+            """
+            UPDATE quality_ratings
+            SET quality_score=%s,
+                remarks=%s
+            WHERE rating_id=%s
+            """,
+            (quality_score, remarks, id)
+        )
+
+        db.commit()
+
+        return redirect("/view_quality")
+
+    cursor.execute(
+        """
+        SELECT
+        rating_id,
+        product_id,
+        quality_score,
+        remarks
+        FROM quality_ratings
+        WHERE rating_id=%s
+        """,
+        (id,)
+    )
+
+    quality = cursor.fetchone()
+
+    return render_template(
+        "edit_quality.html",
+        quality=quality
+    )
+@app.route("/delete_quality/<int:id>")
+def delete_quality(id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute(
+        "DELETE FROM quality_ratings WHERE rating_id=%s",
+        (id,)
+    )
+
+    db.commit()
+
+    return redirect("/view_quality")
+@app.route("/add_product", methods=["GET", "POST"])
 def add_product():
     if "user" not in session:
         return redirect("/login")
