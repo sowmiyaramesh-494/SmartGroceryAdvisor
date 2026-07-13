@@ -7,7 +7,7 @@ app.secret_key = "smart_grocery_secret"
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="root@123",
+    password="sowmiroot@123",
     database="smart_grocery_advisor"
 )
 

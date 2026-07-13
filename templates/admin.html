@@ -4,15 +4,15 @@
 
 <div class="container mt-5">
 
-    <h2 class="text-center text-success mb-4">
-        Admin Dashboard
+    <h2 class="text-center fw-bold text-dark mb-5">
+        Smart Grocery Advisor - Admin Dashboard
     </h2>
 
     <!-- Dashboard Statistics -->
     <div class="row g-4 mb-5">
 
         <div class="col-md-3">
-            <div class="card text-center shadow border-0 bg-success text-white">
+            <div class="card shadow-sm border-0 text-center h-100 bg-success text-white">
                 <div class="card-body">
                     <h5>Total Stores</h5>
                     <h2>{{ total_stores }}</h2>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center shadow border-0 bg-primary text-white">
+            <div class="card shadow-sm border-0 text-center h-100 bg-primary text-white">
                 <div class="card-body">
                     <h5>Total Products</h5>
                     <h2>{{ total_products }}</h2>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center shadow border-0 bg-warning text-dark">
+            <div class="card shadow-sm border-0 text-center h-100 bg-warning text-dark">
                 <div class="card-body">
                     <h5>Total Prices</h5>
                     <h2>{{ total_prices }}</h2>
@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center shadow border-0 bg-danger text-white">
+            <div class="card shadow-sm border-0 text-center h-100 bg-danger text-white">
                 <div class="card-body">
                     <h5>Quality Ratings</h5>
                     <h2>{{ total_quality }}</h2>
@@ -50,23 +50,25 @@
     </div>
 
     <!-- Store Management -->
-    <h4 class="text-success mb-3">🏪 Store Management</h4>
+    <h4 class="fw-bold text-dark border-bottom pb-2 mb-3">
+        Store Management
+    </h4>
 
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-5">
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>Add Store</h4>
-                <a href="/add_store" class="btn btn-success mt-3">
+                <a href="/add_store" class="btn btn-success w-100 mt-3">
                     Open
                 </a>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>View Stores</h4>
-                <a href="/view_stores" class="btn btn-primary mt-3">
+                <a href="/view_stores" class="btn btn-primary w-100 mt-3">
                     Open
                 </a>
             </div>
@@ -75,23 +77,25 @@
     </div>
 
     <!-- Product Management -->
-    <h4 class="text-success mb-3">📦 Product Management</h4>
+    <h4 class="fw-bold text-dark border-bottom pb-2 mb-3">
+        Product Management
+    </h4>
 
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-5">
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>Add Product</h4>
-                <a href="/add_product" class="btn btn-success mt-3">
+                <a href="/add_product" class="btn btn-success w-100 mt-3">
                     Open
                 </a>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>View Products</h4>
-                <a href="/view_products" class="btn btn-primary mt-3">
+                <a href="/view_products" class="btn btn-primary w-100 mt-3">
                     Open
                 </a>
             </div>
@@ -100,23 +104,25 @@
     </div>
 
     <!-- Price Management -->
-    <h4 class="text-success mb-3">💰 Price Management</h4>
+    <h4 class="fw-bold text-dark border-bottom pb-2 mb-3">
+        Price Management
+    </h4>
 
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-5">
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>Add Price</h4>
-                <a href="/add_price" class="btn btn-success mt-3">
+                <a href="/add_price" class="btn btn-success w-100 mt-3">
                     Open
                 </a>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>View Prices</h4>
-                <a href="/view_prices" class="btn btn-primary mt-3">
+                <a href="/view_prices" class="btn btn-primary w-100 mt-3">
                     Open
                 </a>
             </div>
@@ -125,23 +131,25 @@
     </div>
 
     <!-- Quality Management -->
-    <h4 class="text-success mb-3">⭐ Quality Management</h4>
+    <h4 class="fw-bold text-dark border-bottom pb-2 mb-3">
+        Quality Management
+    </h4>
 
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-5">
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>Add Quality Rating</h4>
-                <a href="/quality" class="btn btn-success mt-3">
+                <a href="/quality" class="btn btn-success w-100 mt-3">
                     Open
                 </a>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>View Quality</h4>
-                <a href="/view_quality" class="btn btn-primary mt-3">
+                <a href="/view_quality" class="btn btn-primary w-100 mt-3">
                     Open
                 </a>
             </div>
@@ -149,24 +157,26 @@
 
     </div>
 
-    <!-- Comparison & Logout -->
-    <h4 class="text-success mb-3">⚙️ Other Options</h4>
+    <!-- Other Options -->
+    <h4 class="fw-bold text-dark border-bottom pb-2 mb-3">
+        Other Options
+    </h4>
 
     <div class="row g-4">
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>Compare Prices</h4>
-                <a href="/compare" class="btn btn-success mt-3">
+                <a href="/compare" class="btn btn-success w-100 mt-3">
                     Open
                 </a>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow text-center p-4">
+            <div class="card shadow-sm border-0 text-center h-100 p-4">
                 <h4>Logout</h4>
-                <a href="/logout" class="btn btn-danger mt-3">
+                <a href="/logout" class="btn btn-danger w-100 mt-3">
                     Logout
                 </a>
             </div>
