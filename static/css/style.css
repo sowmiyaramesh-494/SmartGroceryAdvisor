@@ -1,61 +1,488 @@
-body{
-    background:#f8f9fa;
+/* ===========================================================
+   SMART GROCERY ADVISOR
+   MODERN STARTUP UI
+=========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* Hero Section */
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fb;
+    color:#1f2937;
+    overflow-x:hidden;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+.navbar{
+    background:linear-gradient(135deg,#10b981,#2563eb);
+    padding:15px 0;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.navbar-brand{
+    color:white!important;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.nav-link{
+    color:white!important;
+    font-weight:500;
+    margin-left:15px;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#ffe082!important;
+}
+
+.navbar .btn{
+    border-radius:40px;
+    padding:10px 28px;
+    font-weight:600;
+}
+
+/* ===========================
+   HERO
+=========================== */
 
 .hero-section{
-    padding:90px 0;
-    min-height:80vh;
+    min-height:90vh;
     display:flex;
     align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-section::before{
+
+    content:"";
+    position:absolute;
+    width:650px;
+    height:650px;
+    background:linear-gradient(135deg,#10b98133,#2563eb33);
+    border-radius:50%;
+    top:-250px;
+    right:-220px;
+    z-index:-1;
+
+}
+
+.hero-section::after{
+
+    content:"";
+    position:absolute;
+    width:420px;
+    height:420px;
+    background:#10b98112;
+    border-radius:50%;
+    bottom:-180px;
+    left:-180px;
+    z-index:-1;
+
+}
+
+.hero-section h1{
+
+    font-size:60px;
+    font-weight:700;
+    line-height:1.2;
+
+}
+
+.hero-section p{
+
+    font-size:20px;
+    color:#6b7280;
+    margin-top:25px;
+    margin-bottom:35px;
+    line-height:1.8;
+
 }
 
 .hero-image{
+
     width:100%;
-    max-width:520px;
-    filter:drop-shadow(0 20px 30px rgba(0,0,0,0.15));
-    transition:0.4s;
-}
-
-.hero-image:hover{
-    transform:translateY(-8px);
-}
-
-.hero-image:hover{
-    transform:scale(1.05);
-}
-/* Feature Cards */
-
-.feature-card{
-
-    border:none;
-    border-radius:20px;
-    transition:0.4s;
+    max-width:550px;
+    animation:floatImage 5s ease-in-out infinite;
+    filter:drop-shadow(0 25px 40px rgba(0,0,0,.15));
 
 }
 
-.feature-card:hover{
+@keyframes floatImage{
 
-    transform:translateY(-10px);
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-15px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
 
 }
 
-.feature-card h1{
-
-    font-size:55px;
-
-}
-
+/* ===========================
+   BUTTONS
+=========================== */
 
 .btn{
 
-    border-radius:30px;
+    border-radius:40px;
+    padding:14px 34px;
+    font-weight:600;
+    transition:.35s;
+    border:none;
 
 }
 
+.btn-success{
+
+    background:linear-gradient(135deg,#10b981,#059669);
+
+}
+
+.btn-success:hover{
+
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px rgba(16,185,129,.35);
+
+}
+
+.btn-outline-success{
+
+    border:2px solid #10b981;
+    color:#10b981;
+
+}
+
+.btn-outline-success:hover{
+
+    background:#10b981;
+    color:white;
+    transform:translateY(-4px);
+
+}
+
+/* ===========================
+   SECTION TITLE
+=========================== */
+
+.section-title{
+
+    text-align:center;
+    margin-bottom:60px;
+
+}
+
+.section-title h2{
+
+    font-size:40px;
+    font-weight:700;
+
+}
+
+.section-title p{
+
+    color:#6b7280;
+    margin-top:15px;
+
+}
+/* ===========================
+   FEATURE CARDS
+=========================== */
+
+.feature-card{
+    background:#fff;
+    border:none;
+    border-radius:24px;
+    padding:35px 25px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    transition:.35s;
+    height:100%;
+}
+
+.feature-card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 25px 45px rgba(37,99,235,.18);
+}
+
+.feature-card i{
+    font-size:55px;
+    color:#10b981;
+    margin-bottom:20px;
+}
+
+.feature-card h4{
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.feature-card p{
+    color:#6b7280;
+    line-height:1.7;
+}
+
+/* ===========================
+   CARDS
+=========================== */
+
+.card{
+    border:none;
+    border-radius:22px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.card-header{
+    background:white;
+    border:none;
+    font-weight:600;
+}
+
+/* ===========================
+   FORMS
+=========================== */
+
+.form-control,
+.form-select{
+    border-radius:14px;
+    padding:12px 15px;
+    border:1px solid #d1d5db;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#10b981;
+    box-shadow:0 0 0 .2rem rgba(16,185,129,.18);
+}
+
+label{
+    font-weight:500;
+    margin-bottom:6px;
+}
+
+/* ===========================
+   TABLES
+=========================== */
+
+.table{
+    border-radius:18px;
+    overflow:hidden;
+    background:white;
+}
+
+.table thead{
+    background:linear-gradient(135deg,#10b981,#2563eb);
+    color:white;
+}
+
+.table th{
+    border:none;
+    padding:16px;
+}
+
+.table td{
+    padding:15px;
+    vertical-align:middle;
+}
+
+.table tbody tr:hover{
+    background:#f3f8ff;
+}
+
+/* ===========================
+   DASHBOARD
+=========================== */
+
+.dashboard-card{
+    background:#ffffff;
+    border-radius:25px;
+    padding:35px 25px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+    transition:all 0.3s ease;
+    height:100%;
+    border:1px solid #f1f1f1;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 45px rgba(0,0,0,0.15);
+}
+
+.dashboard-card i{
+    font-size:50px;
+    color:#10b981;
+    margin-bottom:20px;
+}
+
+.dashboard-card h2{
+    font-size:40px;
+    font-weight:700;
+    margin-bottom:10px;
+    color:#222;
+}
+
+.dashboard-card p{
+    font-size:18px;
+    color:#666;
+    margin-bottom:0;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
 footer{
+    background:#111827;
+    color:white;
+    margin-top:80px;
+}
 
-    margin-top:60px;
+footer h5{
+    color:white;
+}
 
+footer p,
+footer small{
+    color:#d1d5db;
+}
+
+/* ===========================
+   ANIMATION
+=========================== */
+
+.fade-up{
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:992px){
+
+.hero-section{
+
+    text-align:center;
+    padding-top:70px;
+
+}
+
+.hero-section h1{
+
+    font-size:42px;
+
+}
+
+.hero-image{
+
+    margin-top:40px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-section h1{
+
+    font-size:34px;
+
+}
+
+.hero-section p{
+
+    font-size:17px;
+
+}
+
+.btn{
+
+    width:100%;
+    margin-bottom:12px;
+
+}
+
+.navbar-brand{
+
+    font-size:22px;
+
+}
+
+.section-title h2{
+
+    font-size:30px;
+
+}
+
+}
+
+/* Dashboard Card Hover Effect */
+
+.card{
+    transition:0.3s ease;
+    border-radius:25px;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* ============================
+   LOGIN PAGE
+============================ */
+
+.form-control{
+    border-radius:15px;
+    padding:12px;
+    border:1px solid #dcdcdc;
+}
+
+.form-control:focus{
+    border-color:#10b981;
+    box-shadow:0 0 10px rgba(16,185,129,0.25);
+}
+
+.card{
+    overflow:hidden;
+}
+
+.btn-success{
+    transition:0.3s ease;
+}
+
+.btn-success:hover{
+    transform:scale(1.03);
 }

@@ -32,6 +32,9 @@ def contact():
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
+    if "user" in session:
+        return redirect("/admin")
+
     if request.method == "POST":
 
         email = request.form["email"]
@@ -43,14 +46,13 @@ def login():
         user = cursor.fetchone()
 
         if user:
-
             session["user"] = email
-
             return redirect("/admin")
 
         else:
-
             return "Invalid Email or Password"
+
+    return render_template("login.html")
 
     return render_template("login.html")
 @app.route("/admin")
