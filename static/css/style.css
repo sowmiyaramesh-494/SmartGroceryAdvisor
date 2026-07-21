@@ -486,3 +486,41 @@ footer small{
 .btn-success:hover{
     transform:scale(1.03);
 }
+
+/* =====================================
+   COMPARE PAGE
+===================================== */
+
+.table{
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.table tbody tr{
+    transition:0.3s;
+}
+
+.table tbody tr:hover{
+    background:#f8fff9;
+}
+
+.badge{
+    font-size:14px;
+    padding:8px 14px;
+    border-radius:30px;
+}
+
+.select2-container--default .select2-selection--single{
+    height:48px;
+    border-radius:15px;
+    padding-top:8px;
+}
+
+.select2-container--default .select2-selection__arrow{
+    height:48px;
+}
+
+.table-dark th{
+    font-weight:600;
+    letter-spacing:.5px;
+}

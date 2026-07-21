@@ -2,68 +2,107 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <h2 class="text-center text-success mb-4">
-        Product Price Comparison
-    </h2>
+    <!-- Page Heading -->
 
-    <form method="POST">
+    <div class="text-center mb-5">
 
-        <div class="row">
+        <span class="badge bg-success px-3 py-2 mb-3">
+            SMART COMPARISON
+        </span>
 
-            <div class="col-md-8">
+        <h1 class="fw-bold">
+            Compare Grocery Prices
+        </h1>
 
-                <select class="form-select" id="product" name="product_id">
+        <p class="text-muted">
+            Compare prices from multiple stores and choose the best value for your money.
+        </p>
 
-                    {% for product in products %}
+    </div>
 
-                    <option value="{{ product[0] }}"
-                        {% if product[0] == selected_product_id %}
-                            selected
-                        {% endif %}>
-                        {{ product[1] }}
-                    </option>
+    <!-- Search Card -->
 
-                    {% endfor %}
+    <div class="card shadow border-0 p-4 mb-5">
 
-                </select>
+        <form method="POST">
+
+            <div class="row align-items-end">
+
+                <div class="col-md-9">
+
+                    <label class="form-label fw-semibold">
+
+                        <i class="bi bi-search text-success me-2"></i>
+
+                        Select Product
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="product"
+                        name="product_id">
+
+                        {% for product in products %}
+
+                        <option value="{{ product[0] }}"
+                            {% if product[0] == selected_product_id %}
+                                selected
+                            {% endif %}>
+
+                            {{ product[1] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg w-100">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        Compare
+
+                    </button>
+
+                </div>
 
             </div>
 
-            <div class="col-md-4">
+        </form>
 
-                <button type="submit" class="btn btn-success w-100">
-                    Compare
-                </button>
-
-            </div>
-
-        </div>
-
-    </form>
-
-    <br>
+    </div>
 
     {% if prices %}
 
-    <div class="row mb-4">
+    <!-- Recommendation Cards -->
+
+    <div class="row g-4 mb-5">
 
         <div class="col-md-6">
 
-            <div class="card border-success shadow-sm">
+            <div class="dashboard-card">
 
-                <div class="card-body text-center">
+                <i class="bi bi-shop text-success"></i>
 
-                    <h6 class="text-muted">
-                        Recommended Store
-                    </h6>
+                <h5 class="text-muted">
+                    Recommended Store
+                </h5>
 
-                    <h4 class="text-success">
-                        {{ recommended_store }}
-                    </h4>
+                <h3 class="fw-bold text-success">
 
-                </div>
+                    {{ recommended_store }}
+
+                </h3>
 
             </div>
 
@@ -71,19 +110,19 @@
 
         <div class="col-md-6">
 
-            <div class="card border-primary shadow-sm">
+            <div class="dashboard-card">
 
-                <div class="card-body text-center">
+                <i class="bi bi-cash-coin text-warning"></i>
 
-                    <h6 class="text-muted">
-                        Lowest Available Price
-                    </h6>
+                <h5 class="text-muted">
+                    Lowest Price
+                </h5>
 
-                    <h4 class="text-primary">
-                        ₹ {{ lowest_price }}
-                    </h4>
+                <h3 class="fw-bold text-primary">
 
-                </div>
+                    ₹ {{ lowest_price }}
+
+                </h3>
 
             </div>
 
@@ -91,60 +130,114 @@
 
     </div>
 
-    <h3 class="text-center text-primary mb-4">
-        {{ product_name }} Price Comparison
-    </h3>
+    <!-- Product Name -->
 
-    <table class="table table-bordered table-hover">
+    <div class="text-center mb-4">
 
-        <thead class="table-success">
+        <h2 class="fw-bold text-primary">
 
-            <tr>
-                <th>Store</th>
-                <th>Price (₹)</th>
-                <th>Quality</th>
-                <th>Recommendation</th>
-            </tr>
+            {{ product_name }}
 
-        </thead>
+        </h2>
 
-        <tbody>
+        <p class="text-muted">
 
-            {% for row in prices %}
+            Price comparison across available grocery stores.
 
-            <tr {% if row[1] == lowest_price %}class="table-success"{% endif %}>
+        </p>
 
-                <td>{{ row[0] }}</td>
+    </div>
 
-                <td>₹ {{ row[1] }}</td>
+    <!-- Comparison Table -->
 
-                <td>{{ row[2] }}/5</td>
+    <div class="card shadow border-0">
 
-                <td>
+        <div class="card-body">
 
-                    {% if row[1] == lowest_price %}
+            <div class="table-responsive">
 
-                        <span class="badge bg-success">
-                            Best Choice
-                        </span>
+                <table class="table table-hover align-middle">
 
-                    {% else %}
+                    <thead class="table-dark">
 
-                        <span class="badge bg-secondary">
-                            Available
-                        </span>
+                        <tr>
 
-                    {% endif %}
+                            <th>Store</th>
+                            <th>Price</th>
+                            <th>Quality</th>
+                            <th>Status</th>
 
-                </td>
+                        </tr>
 
-            </tr>
+                    </thead>
 
-            {% endfor %}
+                    <tbody>
 
-        </tbody>
+                        {% for row in prices %}
 
-    </table>
+                        <tr {% if row[1] == lowest_price %}class="table-success"{% endif %}>
+
+                            <td>
+
+                                <i class="bi bi-shop text-success me-2"></i>
+
+                                {{ row[0] }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="fw-bold text-primary">
+
+                                    ₹ {{ row[1] }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                ⭐ {{ row[2] }}/5
+
+                            </td>
+
+                            <td>
+
+                                {% if row[1] == lowest_price %}
+
+                                <span class="badge bg-success">
+
+                                    <i class="bi bi-trophy-fill me-1"></i>
+
+                                    Best Choice
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Available
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
 
     {% endif %}
 
@@ -159,9 +252,13 @@
 $(document).ready(function () {
 
     $('#product').select2({
+
         placeholder: "Search Product",
+
         allowClear: true,
+
         width: "100%"
+
     });
 
 });

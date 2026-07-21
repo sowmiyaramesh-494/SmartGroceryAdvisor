@@ -2,40 +2,114 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center">
 
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-8">
 
-            <div class="card shadow p-4">
+            <div class="card shadow border-0 p-5">
 
-                <h2 class="text-center text-success mb-4">
-                    Quality Rating
-                </h2>
+                <div class="text-center mb-4">
+
+                    <i class="bi bi-star-fill display-1 text-warning"></i>
+
+                    <h2 class="fw-bold mt-3">
+                        Add Quality Rating
+                    </h2>
+
+                    <p class="text-muted">
+                        Record the quality rating and remarks for a grocery product.
+                    </p>
+
+                </div>
 
                 <form method="POST">
 
                     <div class="mb-3">
-                        <label>Product ID</label>
-                        <input type="number" name="product_id" class="form-control" required>
+
+                        <label class="form-label fw-semibold">
+
+                            <i class="bi bi-box-seam text-success me-2"></i>
+
+                            Product ID
+
+                        </label>
+
+                        <input
+                            type="number"
+                            name="product_id"
+                            class="form-control form-control-lg"
+                            placeholder="Enter Product ID"
+                            required>
+
                     </div>
 
                     <div class="mb-3">
-                        <label>Quality Score (1-5)</label>
-                        <input type="number" min="1" max="5" name="quality_score" class="form-control" required>
+
+                        <label class="form-label fw-semibold">
+
+                            <i class="bi bi-star-half text-warning me-2"></i>
+
+                            Quality Score (1 - 5)
+
+                        </label>
+
+                        <input
+                            type="number"
+                            min="1"
+                            max="5"
+                            name="quality_score"
+                            class="form-control form-control-lg"
+                            placeholder="Enter Quality Score"
+                            required>
+
                     </div>
 
-                    <div class="mb-3">
-                        <label>Remarks</label>
-                        <textarea name="remarks" class="form-control"></textarea>
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+
+                            <i class="bi bi-chat-left-text-fill text-primary me-2"></i>
+
+                            Remarks
+
+                        </label>
+
+                        <textarea
+                            name="remarks"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Enter remarks (optional)"></textarea>
+
                     </div>
 
-                    <button class="btn btn-success w-100">
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg w-100">
+
+                        <i class="bi bi-floppy-fill me-2"></i>
+
                         Save Rating
+
                     </button>
 
                 </form>
+
+                <hr>
+
+                <div class="text-center">
+
+                    <a href="/view_quality"
+                       class="text-decoration-none fw-bold">
+
+                        <i class="bi bi-arrow-left-circle me-2"></i>
+
+                        Back to Quality Ratings
+
+                    </a>
+
+                </div>
 
             </div>
 

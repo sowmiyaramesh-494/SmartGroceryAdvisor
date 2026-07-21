@@ -2,64 +2,112 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <h2 class="text-center text-success mb-4">
-        View Quality Ratings
-    </h2>
+    <div class="text-center mb-5">
 
-    <table class="table table-bordered table-hover">
+        <i class="bi bi-star-fill display-1 text-warning"></i>
 
-        <thead class="table-success">
+        <h2 class="fw-bold mt-3">
+            Quality Rating Management
+        </h2>
 
-            <tr>
-                <th>Product</th>
-                <th>Quality</th>
-                <th>Remarks</th>
-                <th>Actions</th>
-            </tr>
+        <p class="text-muted">
+            View, edit, and manage quality ratings and customer remarks for grocery products.
+        </p>
 
-        </thead>
+    </div>
 
-        <tbody>
+    <div class="card shadow border-0">
 
-        {% for row in quality %}
+        <div class="card-body">
 
-            <tr>
+            <div class="table-responsive">
 
-                <td>{{ row[0] }}</td>
+                <table class="table table-hover align-middle mb-0">
 
-                <td>{{ row[1] }}/5</td>
+                    <thead class="table-success">
 
-                <td>{{ row[2] }}</td>
+                        <tr>
 
-                <td>
+                            <th><i class="bi bi-box-seam me-2"></i>Product</th>
+                            <th><i class="bi bi-star-half me-2"></i>Quality</th>
+                            <th><i class="bi bi-chat-left-text-fill me-2"></i>Remarks</th>
+                            <th class="text-center">Actions</th>
 
-                    <a href="/edit_quality/{{ row[3] }}"
-                       class="btn btn-warning btn-sm">
-                        Edit
-                    </a>
+                        </tr>
 
-                    <a href="/delete_quality/{{ row[3] }}"
-                       class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure you want to delete this quality rating?')">
-                        Delete
-                    </a>
+                    </thead>
 
-                </td>
+                    <tbody>
 
-            </tr>
+                        {% for row in quality %}
 
-        {% endfor %}
+                        <tr>
 
-        </tbody>
+                            <td class="fw-semibold">
+                                {{ row[0] }}
+                            </td>
 
-    </table>
+                            <td>
 
-    <div class="text-center">
+                                <span class="badge bg-success">
 
-        <a href="/admin" class="btn btn-success">
+                                    ⭐ {{ row[1] }}/5
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{ row[2] }}
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <a href="/edit_quality/{{ row[3] }}"
+                                   class="btn btn-warning btn-sm me-2">
+
+                                    <i class="bi bi-pencil-square"></i>
+                                    Edit
+
+                                </a>
+
+                                <a href="/delete_quality/{{ row[3] }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete this quality rating?')">
+
+                                    <i class="bi bi-trash-fill"></i>
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-center mt-4">
+
+        <a href="/admin" class="btn btn-success btn-lg">
+
+            <i class="bi bi-arrow-left-circle me-2"></i>
+
             Back to Dashboard
+
         </a>
 
     </div>

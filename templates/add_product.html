@@ -2,49 +2,113 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center">
 
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-8">
 
-            <div class="card shadow p-4">
+            <div class="card shadow border-0 p-5">
 
-                <h2 class="text-center text-success mb-4">
-                    Add Product
-                </h2>
+                <div class="text-center mb-4">
+
+                    <i class="bi bi-box-seam display-1 text-success"></i>
+
+                    <h2 class="fw-bold mt-3">
+                        Add New Product
+                    </h2>
+
+                    <p class="text-muted">
+                        Add a grocery product to make it available for price comparison.
+                    </p>
+
+                </div>
 
                 <form method="POST">
 
                     <div class="mb-3">
-                        <label>Product Name</label>
-                        <input type="text"
-                               name="product_name"
-                               class="form-control"
-                               required>
+
+                        <label class="form-label fw-semibold">
+
+                            <i class="bi bi-bag-fill text-success me-2"></i>
+
+                            Product Name
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="product_name"
+                            class="form-control form-control-lg"
+                            placeholder="Enter product name"
+                            required>
+
                     </div>
 
                     <div class="mb-3">
-                        <label>Category</label>
-                        <input type="text"
-                               name="category"
-                               class="form-control"
-                               required>
+
+                        <label class="form-label fw-semibold">
+
+                            <i class="bi bi-tags-fill text-success me-2"></i>
+
+                            Category
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="category"
+                            class="form-control form-control-lg"
+                            placeholder="Enter product category"
+                            required>
+
                     </div>
 
-                    <div class="mb-3">
-                        <label>Brand</label>
-                        <input type="text"
-                               name="brand"
-                               class="form-control"
-                               required>
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+
+                            <i class="bi bi-award-fill text-success me-2"></i>
+
+                            Brand
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="brand"
+                            class="form-control form-control-lg"
+                            placeholder="Enter brand name"
+                            required>
+
                     </div>
 
-                    <button class="btn btn-success w-100">
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg w-100">
+
+                        <i class="bi bi-floppy-fill me-2"></i>
+
                         Save Product
+
                     </button>
 
                 </form>
+
+                <hr>
+
+                <div class="text-center">
+
+                    <a href="/view_products"
+                       class="text-decoration-none fw-bold">
+
+                        <i class="bi bi-arrow-left-circle me-2"></i>
+
+                        Back to Product List
+
+                    </a>
+
+                </div>
 
             </div>
 
