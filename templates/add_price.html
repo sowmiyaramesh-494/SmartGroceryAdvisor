@@ -26,44 +26,71 @@
 
                 <form method="POST">
 
+                    <!-- Product Dropdown -->
                     <div class="mb-3">
 
                         <label class="form-label fw-semibold">
 
                             <i class="bi bi-box-seam text-success me-2"></i>
 
-                            Product ID
+                            Product
 
                         </label>
 
-                        <input
-                            type="number"
+                        <select
                             name="product_id"
-                            class="form-control form-control-lg"
-                            placeholder="Enter Product ID"
+                            class="form-select form-select-lg"
                             required>
+
+                            <option value="">
+                                -- Select Product --
+                            </option>
+
+                            {% for product in products %}
+
+                            <option value="{{ product[0] }}">
+                                {{ product[1] }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
 
                     </div>
 
+                    <!-- Store Dropdown -->
                     <div class="mb-3">
 
                         <label class="form-label fw-semibold">
 
                             <i class="bi bi-shop text-success me-2"></i>
 
-                            Store ID
+                            Store
 
                         </label>
 
-                        <input
-                            type="number"
+                        <select
                             name="store_id"
-                            class="form-control form-control-lg"
-                            placeholder="Enter Store ID"
+                            class="form-select form-select-lg"
                             required>
+
+                            <option value="">
+                                -- Select Store --
+                            </option>
+
+                            {% for store in stores %}
+
+                            <option value="{{ store[0] }}">
+                                {{ store[1] }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
 
                     </div>
 
+                    <!-- Price -->
                     <div class="mb-4">
 
                         <label class="form-label fw-semibold">

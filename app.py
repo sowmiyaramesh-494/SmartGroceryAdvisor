@@ -7,7 +7,7 @@ app.secret_key = "smart_grocery_secret"
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="sowmiroot@123",
+    password="root@123",
     database="smart_grocery_advisor"
 )
 
@@ -453,8 +453,17 @@ def add_product():
     return render_template("add_product.html")
 @app.route("/add_price", methods=["GET", "POST"])
 def add_price():
+
     if "user" not in session:
         return redirect("/login")
+
+    # Fetch products
+    cursor.execute("SELECT product_id, product_name FROM products")
+    products = cursor.fetchall()
+
+    # Fetch stores
+    cursor.execute("SELECT store_id, store_name FROM stores")
+    stores = cursor.fetchall()
 
     if request.method == "POST":
 
@@ -472,7 +481,11 @@ def add_price():
 
         return redirect("/admin")
 
-    return render_template("add_price.html")
+    return render_template(
+        "add_price.html",
+        products=products,
+        stores=stores
+    )
 @app.route("/quality", methods=["GET", "POST"])
 def quality():
     if "user" not in session:
