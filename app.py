@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = "smart_grocery_secret"
+app.secret_key = "smartgroceryadvisor"
 # Database Connection
 db = mysql.connector.connect(
     host="localhost",
@@ -131,7 +131,9 @@ def add_store():
         cursor.execute(sql, values)
         db.commit()
 
-        return redirect("/admin")
+        flash("Store added successfully!", "success")
+
+        return redirect("/admin")   
 
     return render_template("add_store.html")
 @app.route("/view_stores")
@@ -140,25 +142,32 @@ def view_stores():
     if "user" not in session:
         return redirect("/login")
 
-    cursor.execute("SELECT * FROM stores")
+    search = request.args.get("search", "")
+
+    if search:
+
+        sql = """
+        SELECT * FROM stores
+        WHERE store_name LIKE %s
+        OR location LIKE %s
+        OR contact LIKE %s
+        """
+
+        value = "%" + search + "%"
+
+        cursor.execute(sql, (value, value, value))
+
+    else:
+
+        cursor.execute("SELECT * FROM stores")
 
     stores = cursor.fetchall()
 
-    return render_template("view_stores.html", stores=stores)
-@app.route("/delete_store/<int:store_id>")
-def delete_store(store_id):
-
-    if "user" not in session:
-        return redirect("/login")
-
-    cursor.execute(
-        "DELETE FROM stores WHERE store_id=%s",
-        (store_id,)
+    return render_template(
+        "view_stores.html",
+        stores=stores,
+        search=search
     )
-
-    db.commit()
-
-    return redirect("/view_stores")
 @app.route("/edit_store/<int:store_id>", methods=["GET", "POST"])
 def edit_store(store_id):
 
@@ -182,6 +191,8 @@ def edit_store(store_id):
         cursor.execute(sql, (store_name, location, contact, store_id))
         db.commit()
 
+        flash("Store updated successfully!", "success")
+
         return redirect("/view_stores")
 
     cursor.execute(
@@ -193,18 +204,37 @@ def edit_store(store_id):
 
     return render_template("edit_store.html", store=store)
 @app.route("/view_products")
-
 def view_products():
 
     if "user" not in session:
         return redirect("/login")
 
-    cursor.execute("SELECT * FROM products")
+    search = request.args.get("search", "")
+
+    if search:
+
+        sql = """
+        SELECT * FROM products
+        WHERE product_name LIKE %s
+        OR category LIKE %s
+        OR brand LIKE %s
+        """
+
+        value = "%" + search + "%"
+
+        cursor.execute(sql, (value, value, value))
+
+    else:
+
+        cursor.execute("SELECT * FROM products")
 
     products = cursor.fetchall()
 
-    return render_template("view_products.html", products=products)
-
+    return render_template(
+        "view_products.html",
+        products=products,
+        search=search
+    )
 
 @app.route("/edit_product/<int:product_id>", methods=["GET", "POST"])
 def edit_product(product_id):
@@ -276,25 +306,56 @@ def view_prices():
     if "user" not in session:
         return redirect("/login")
 
-    sql = """
-    SELECT
-    products.product_name,
-    stores.store_name,
-    product_prices.price,
-    product_prices.price_id
-    FROM product_prices
-    JOIN products
-    ON product_prices.product_id = products.product_id
-    JOIN stores
-    ON product_prices.store_id = stores.store_id
-    ORDER BY products.product_name
-    """ 
+    search = request.args.get("search", "")
 
-    cursor.execute(sql)
+    if search:
+
+        sql = """
+        SELECT
+            products.product_name,
+            stores.store_name,
+            product_prices.price,
+            product_prices.price_id
+        FROM product_prices
+        JOIN products
+            ON product_prices.product_id = products.product_id
+        JOIN stores
+            ON product_prices.store_id = stores.store_id
+        WHERE products.product_name LIKE %s
+           OR stores.store_name LIKE %s
+           OR product_prices.price LIKE %s
+        ORDER BY products.product_name
+        """
+
+        value = "%" + search + "%"
+
+        cursor.execute(sql, (value, value, value))
+
+    else:
+
+        sql = """
+        SELECT
+            products.product_name,
+            stores.store_name,
+            product_prices.price,
+            product_prices.price_id
+        FROM product_prices
+        JOIN products
+            ON product_prices.product_id = products.product_id
+        JOIN stores
+            ON product_prices.store_id = stores.store_id
+        ORDER BY products.product_name
+        """
+
+        cursor.execute(sql)
 
     prices = cursor.fetchall()
 
-    return render_template("view_prices.html", prices=prices)
+    return render_template(
+        "view_prices.html",
+        prices=prices,
+        search=search
+    )
 @app.route("/edit_price/<int:id>", methods=["GET", "POST"])
 def edit_price(id):
 
@@ -346,29 +407,56 @@ def delete_price(id):
 
     return redirect("/view_prices")
 @app.route("/view_quality")
-
 def view_quality():
 
     if "user" not in session:
         return redirect("/login")
 
-    sql = """
-    SELECT
-    products.product_name,
-    quality_ratings.quality_score,
-    quality_ratings.remarks,
-    quality_ratings.rating_id
-    FROM quality_ratings
-    JOIN products
-    ON quality_ratings.product_id = products.product_id
-    ORDER BY products.product_name
-    """
+    search = request.args.get("search", "")
 
-    cursor.execute(sql)
+    if search:
+
+        sql = """
+        SELECT
+            products.product_name,
+            quality_ratings.quality_score,
+            quality_ratings.remarks,
+            quality_ratings.rating_id
+        FROM quality_ratings
+        JOIN products
+        ON quality_ratings.product_id = products.product_id
+        WHERE products.product_name LIKE %s
+           OR quality_ratings.remarks LIKE %s
+        ORDER BY products.product_name
+        """
+
+        value = "%" + search + "%"
+
+        cursor.execute(sql, (value, value))
+
+    else:
+
+        sql = """
+        SELECT
+            products.product_name,
+            quality_ratings.quality_score,
+            quality_ratings.remarks,
+            quality_ratings.rating_id
+        FROM quality_ratings
+        JOIN products
+        ON quality_ratings.product_id = products.product_id
+        ORDER BY products.product_name
+        """
+
+        cursor.execute(sql)
 
     quality = cursor.fetchall()
 
-    return render_template("view_quality.html", quality=quality)
+    return render_template(
+        "view_quality.html",
+        quality=quality,
+        search=search
+    )
 @app.route("/edit_quality/<int:id>", methods=["GET", "POST"])
 def edit_quality(id):
 
@@ -448,8 +536,9 @@ def add_product():
         cursor.execute(sql, values)
         db.commit()
 
-        return redirect("/admin")
+        flash("Product added successfully!", "success")
 
+        return redirect("/admin")
     return render_template("add_product.html")
 @app.route("/add_price", methods=["GET", "POST"])
 def add_price():
@@ -479,6 +568,8 @@ def add_price():
         cursor.execute(sql, (product_id, store_id, price))
         db.commit()
 
+        flash("Price added successfully!", "success")
+
         return redirect("/admin")
 
     return render_template(
@@ -488,8 +579,14 @@ def add_price():
     )
 @app.route("/quality", methods=["GET", "POST"])
 def quality():
+
     if "user" not in session:
         return redirect("/login")
+
+    # Fetch all products
+    cursor.execute("SELECT product_id, product_name FROM products")
+    products = cursor.fetchall()
+
     if request.method == "POST":
 
         product_id = request.form["product_id"]
@@ -504,9 +601,13 @@ def quality():
         cursor.execute(sql, (product_id, quality_score, remarks))
         db.commit()
 
-        return redirect("/admin")
+        flash("Quality rating added successfully!", "success")
 
-    return render_template("quality.html")
+        return redirect("/admin")
+    return render_template(
+        "quality.html",
+        products=products
+    )
 @app.route("/compare", methods=["GET", "POST"])
 def compare():
 
