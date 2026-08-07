@@ -168,6 +168,22 @@ def view_stores():
         stores=stores,
         search=search
     )
+@app.route("/delete_store/<int:store_id>")
+def delete_store(store_id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute(
+        "DELETE FROM stores WHERE store_id=%s",
+        (store_id,)
+    )
+
+    db.commit()
+
+    flash("Store deleted successfully!", "success")
+
+    return redirect("/view_stores")
 @app.route("/edit_store/<int:store_id>", methods=["GET", "POST"])
 def edit_store(store_id):
 
@@ -260,6 +276,8 @@ def edit_product(product_id):
         cursor.execute(sql, (product_name, category, brand, product_id))
         db.commit()
 
+        flash("Product updated successfully!", "success")
+
         return redirect("/view_products")
 
     cursor.execute(
@@ -298,6 +316,8 @@ def delete_product(id):
     )
 
     db.commit()
+
+    flash("Product deleted successfully!", "success")
 
     return redirect("/view_products")
 @app.route("/view_prices")
@@ -373,19 +393,21 @@ def edit_price(id):
 
         db.commit()
 
+        flash("Price updated successfully!", "success")
+
         return redirect("/view_prices")
 
     cursor.execute("""
         SELECT
-        product_prices.price_id,
-        products.product_name,
-        stores.store_name,
-        product_prices.price
+            product_prices.price_id,
+            products.product_name,
+            stores.store_name,
+            product_prices.price
         FROM product_prices
         JOIN products
-        ON product_prices.product_id = products.product_id
+            ON product_prices.product_id = products.product_id
         JOIN stores
-        ON product_prices.store_id = stores.store_id
+            ON product_prices.store_id = stores.store_id
         WHERE product_prices.price_id=%s
     """, (id,))
 
@@ -404,6 +426,8 @@ def delete_price(id):
     )
 
     db.commit()
+
+    flash("Price deleted successfully!", "success")
 
     return redirect("/view_prices")
 @app.route("/view_quality")
@@ -480,15 +504,17 @@ def edit_quality(id):
 
         db.commit()
 
+        flash("Quality rating updated successfully!", "success")
+
         return redirect("/view_quality")
 
     cursor.execute(
         """
         SELECT
-        rating_id,
-        product_id,
-        quality_score,
-        remarks
+            rating_id,
+            product_id,
+            quality_score,
+            remarks
         FROM quality_ratings
         WHERE rating_id=%s
         """,
@@ -513,6 +539,8 @@ def delete_quality(id):
     )
 
     db.commit()
+
+    flash("Quality rating deleted successfully!", "success")
 
     return redirect("/view_quality")
 @app.route("/add_product", methods=["GET", "POST"])
