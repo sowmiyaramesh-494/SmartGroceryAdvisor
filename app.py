@@ -174,6 +174,13 @@ def delete_store(store_id):
     if "user" not in session:
         return redirect("/login")
 
+    # Delete prices related to this store first
+    cursor.execute(
+        "DELETE FROM product_prices WHERE store_id=%s",
+        (store_id,)
+    )
+
+    # Now delete the store
     cursor.execute(
         "DELETE FROM stores WHERE store_id=%s",
         (store_id,)
