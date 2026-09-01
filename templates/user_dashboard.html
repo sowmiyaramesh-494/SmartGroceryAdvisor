@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Welcome Section -->
+
+    <div class="text-center mb-5">
+
+        <span class="badge bg-success px-3 py-2">
+            SMART GROCERY SHOPPING
+        </span>
+
+        <h1 class="fw-bold mt-4">
+            Welcome, {{ session.get("full_name", "User") }} 👋
+        </h1>
+
+        <p class="text-muted fs-5">
+            Find the best grocery prices and make smarter shopping decisions.
+        </p>
+
+    </div>
+
+
+    <!-- Search / Compare Card -->
+
+    <div class="card shadow border-0 p-4 mb-5">
+
+        <div class="text-center mb-4">
+
+            <i class="bi bi-search display-4 text-success"></i>
+
+            <h3 class="fw-bold mt-3">
+                What are you looking for?
+            </h3>
+
+            <p class="text-muted">
+                Select a product to compare prices across available stores.
+            </p>
+
+        </div>
+
+
+        <form method="POST" action="/compare">
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-8 mb-3">
+
+                    <label class="form-label fw-semibold">
+
+                        <i class="bi bi-box-seam text-success me-2"></i>
+
+                        Select Product
+
+                    </label>
+
+                    <select
+                        name="product_id"
+                        class="form-select form-select-lg"
+                        required>
+
+                        <option value="">
+                            -- Select Product --
+                        </option>
+
+                        {% for product in products %}
+
+                        <option value="{{ product[0] }}">
+                            {{ product[1] }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-4 d-flex align-items-end mb-3">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg w-100">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        Compare Prices
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Information Cards -->
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow h-100 text-center p-4">
+
+                <i class="bi bi-shop display-4 text-success"></i>
+
+                <h4 class="fw-bold mt-3">
+                    Compare Stores
+                </h4>
+
+                <p class="text-muted">
+                    View prices for the selected product across different grocery stores.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow h-100 text-center p-4">
+
+                <i class="bi bi-currency-rupee display-4 text-primary"></i>
+
+                <h4 class="fw-bold mt-3">
+                    Find Lowest Price
+                </h4>
+
+                <p class="text-muted">
+                    Quickly identify the store offering the lowest available price.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow h-100 text-center p-4">
+
+                <i class="bi bi-star-fill display-4 text-warning"></i>
+
+                <h4 class="fw-bold mt-3">
+                    Check Quality
+                </h4>
+
+                <p class="text-muted">
+                    View the quality score associated with the selected product.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Logout -->
+
+    <div class="text-center mt-5">
+
+        <a href="/logout"
+           class="btn btn-outline-danger">
+
+            <i class="bi bi-box-arrow-right me-2"></i>
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,17 +1,39 @@
 from flask import Flask, render_template, request, redirect, session, flash
+from functools import wraps
 import mysql.connector
 
 app = Flask(__name__)
+
 app.secret_key = "smartgroceryadvisor"
+
 # Database Connection
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="root@123",
+    password="sowmiroot@123",
     database="smart_grocery_advisor"
 )
 
 cursor = db.cursor()
+
+
+# ================= ADMIN ACCESS CHECK =================
+
+
+def admin_required(f):
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+
+        if "user" not in session:
+            return redirect("/login")
+
+        if session.get("role") != "admin":
+            return redirect("/user_dashboard")
+
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 # Home Page
 @app.route("/")
@@ -33,34 +55,50 @@ def contact():
 def login():
 
     if "user" in session:
-        return redirect("/admin")
+        if session.get("role") == "admin":
+            return redirect("/admin")
+        else:
+            return redirect("/user_dashboard")
 
     if request.method == "POST":
 
         email = request.form["email"]
         password = request.form["password"]
 
-        sql = "SELECT * FROM users WHERE email=%s AND password=%s"
+        sql = """
+        SELECT user_id, full_name, email, password, role
+        FROM users
+        WHERE email=%s AND password=%s
+        """
+
         cursor.execute(sql, (email, password))
 
         user = cursor.fetchone()
 
         if user:
+
             session["user"] = email
-            return redirect("/admin")
+            session["role"] = user[4]
+            session["full_name"] = user[1]
+
+            if user[4] == "admin":
+                return redirect("/admin")
+            else:
+                return redirect("/user_dashboard")
 
         else:
-            return "Invalid Email or Password"
 
-    return render_template("login.html")
+            return "Invalid Email or Password"
 
     return render_template("login.html")
 @app.route("/admin")
 def admin():
 
-
     if "user" not in session:
         return redirect("/login")
+
+    if session.get("role") != "admin":
+        return redirect("/user_dashboard")
 
     cursor.execute("SELECT COUNT(*) FROM stores")
     total_stores = cursor.fetchone()[0]
@@ -111,6 +149,7 @@ def logout():
 
     return redirect("/login")
 @app.route("/add_store", methods=["GET", "POST"])
+@admin_required
 def add_store():
     if "user" not in session:
         return redirect("/login")
@@ -137,8 +176,8 @@ def add_store():
 
     return render_template("add_store.html")
 @app.route("/view_stores")
+@admin_required
 def view_stores():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -169,6 +208,7 @@ def view_stores():
         search=search
     )
 @app.route("/delete_store/<int:store_id>")
+@admin_required
 def delete_store(store_id):
 
     if "user" not in session:
@@ -192,6 +232,7 @@ def delete_store(store_id):
 
     return redirect("/view_stores")
 @app.route("/edit_store/<int:store_id>", methods=["GET", "POST"])
+@admin_required
 def edit_store(store_id):
 
     if "user" not in session:
@@ -227,6 +268,7 @@ def edit_store(store_id):
 
     return render_template("edit_store.html", store=store)
 @app.route("/view_products")
+@admin_required
 def view_products():
 
     if "user" not in session:
@@ -260,6 +302,7 @@ def view_products():
     )
 
 @app.route("/edit_product/<int:product_id>", methods=["GET", "POST"])
+@admin_required
 def edit_product(product_id):
 
     if "user" not in session:
@@ -299,6 +342,7 @@ def edit_product(product_id):
         product=product
     )
 @app.route("/delete_product/<int:id>")
+@admin_required
 def delete_product(id):
 
     if "user" not in session:
@@ -328,6 +372,7 @@ def delete_product(id):
 
     return redirect("/view_products")
 @app.route("/view_prices")
+@admin_required
 def view_prices():
 
     if "user" not in session:
@@ -384,6 +429,7 @@ def view_prices():
         search=search
     )
 @app.route("/edit_price/<int:id>", methods=["GET", "POST"])
+@admin_required
 def edit_price(id):
 
     if "user" not in session:
@@ -422,6 +468,7 @@ def edit_price(id):
 
     return render_template("edit_price.html", price=price)
 @app.route("/delete_price/<int:id>")
+@admin_required
 def delete_price(id):
 
     if "user" not in session:
@@ -438,6 +485,7 @@ def delete_price(id):
 
     return redirect("/view_prices")
 @app.route("/view_quality")
+@admin_required
 def view_quality():
 
     if "user" not in session:
@@ -489,6 +537,7 @@ def view_quality():
         search=search
     )
 @app.route("/edit_quality/<int:id>", methods=["GET", "POST"])
+@admin_required
 def edit_quality(id):
 
     if "user" not in session:
@@ -535,6 +584,7 @@ def edit_quality(id):
         quality=quality
     )
 @app.route("/delete_quality/<int:id>")
+@admin_required
 def delete_quality(id):
 
     if "user" not in session:
@@ -551,6 +601,7 @@ def delete_quality(id):
 
     return redirect("/view_quality")
 @app.route("/add_product", methods=["GET", "POST"])
+@admin_required
 def add_product():
     if "user" not in session:
         return redirect("/login")
@@ -576,6 +627,7 @@ def add_product():
         return redirect("/admin")
     return render_template("add_product.html")
 @app.route("/add_price", methods=["GET", "POST"])
+@admin_required
 def add_price():
 
     if "user" not in session:
@@ -613,8 +665,8 @@ def add_price():
         stores=stores
     )
 @app.route("/quality", methods=["GET", "POST"])
+@admin_required
 def quality():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -646,7 +698,13 @@ def quality():
 @app.route("/compare", methods=["GET", "POST"])
 def compare():
 
-    cursor.execute("SELECT product_id, product_name FROM products")
+    if "user" not in session:
+        return redirect("/login")
+
+    cursor.execute(
+        "SELECT product_id, product_name FROM products"
+    )
+
     products = cursor.fetchall()
 
     prices = []
@@ -665,24 +723,22 @@ def compare():
             (product_id,)
         )
 
-        product_name = cursor.fetchone()[0]
+        result = cursor.fetchone()
+
+        if result:
+            product_name = result[0]
 
         sql = """
         SELECT
             stores.store_name,
             product_prices.price,
             quality_ratings.quality_score
-
         FROM product_prices
-
         JOIN stores
             ON product_prices.store_id = stores.store_id
-
         JOIN quality_ratings
             ON product_prices.product_id = quality_ratings.product_id
-
         WHERE product_prices.product_id=%s
-
         ORDER BY product_prices.price ASC
         """
 
@@ -702,6 +758,26 @@ def compare():
         product_name=product_name,
         selected_product_id=selected_product_id
     )
+@app.route("/user_dashboard")
+def user_dashboard():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    if session.get("role") == "admin":
+        return redirect("/admin")
+
+    cursor.execute(
+        "SELECT product_id, product_name FROM products"
+    )
+
+    products = cursor.fetchall()
+
+    return render_template(
+        "user_dashboard.html",
+        products=products
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
